@@ -1,21 +1,23 @@
 import createDeepstream from 'deepstream.io-client-js';
 import React, { Component } from 'react';
+
 import Events from "./components/Events"
 import Record from "./components/Record"
 import RPC from "./components/RPC"
+
 import './App.css';
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-        value: '',
-        connectionState: 'INITIAL'
+            value: '',
+            connectionState: 'INITIAL'
         };
 
         this.ds = createDeepstream('0.0.0.0:6020/deepstream');
 
-        this.ds.on('connectionStateChanged', this.handleConnectionState.bind(this));
+        this.ds.on('connectionStateChanged', this.handleConnectionState);
         this.ds.on('error', error => console.error(error));
 
         this.client = this.ds.login();
@@ -24,16 +26,13 @@ class App extends Component {
         this.event = this.client.event;
         this.rpc = this.client.rpc;
 
-        this.handleChange = this.handleChange.bind(this);
-
     }
 
-
-    handleConnectionState( connectionState ){
+    handleConnectionState = ( connectionState ) => {
         this.setState({connectionState: connectionState});
     }
 
-    handleChange(e) {
+    handleChange = (e) => {
         this.setState({value: e.target.value});
         this.record.set('firstname', e.target.value);
     }

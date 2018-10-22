@@ -10,15 +10,13 @@ class Record extends Component {
 
         this.record = this.props.record;
 
-        this.handleChange = this.handleChange.bind(this);
-
         this.record.subscribe(value => {
             this.setState({firstname: value.firstname});
             this.setState({lastname: value.lastname});
         });
     }
 
-    handleChange(e) {
+    handleChange = (e) => {
         if(e.target.id === 'firstname'){
             this.setState({firstname: e.target.value});
             this.record.set('firstname', e.target.value);
